@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import EmployeeDetails from './EmployeeDetails';
 import '../App.css';
 
-export default function Form() {
+export default function Home() {
   const [tableData, setTableData] = useState([]);
+  const [selectedEmployee, setSelectedEmployee] = useState(null);
   const [editClick, setEditClick] = useState(false);
   const [editIndex, setEditIndex] = useState('');
   const [inputs, setInputs] = useState({
@@ -24,6 +26,10 @@ export default function Form() {
     justifyContent: 'center', // Center vertically
   };
   
+  const handleRowClick = (employee) => {
+    setSelectedEmployee(employee);
+  };
+
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -190,7 +196,7 @@ export default function Form() {
           </thead>
           <tbody>
             {tableData.map((item, i) => (
-              <tr key={i}>
+             <tr key={i} onClick={() => handleRowClick(item)}>
                 <td>{item.name}</td>
                 <td>{item.email}</td>
                 <td>{item.phone}</td>
@@ -217,6 +223,9 @@ export default function Form() {
           </tbody>
         </table>
       </div>
+      {selectedEmployee && (
+        <EmployeeDetails employee={selectedEmployee} />
+      )}
     </div>
   );
 }
